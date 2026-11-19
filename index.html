@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOOKBOOK | PILOT COLLECTION</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Barlow+Condensed:ital,wght@1,700;1,800&family=Oswald:wght@300;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: transparent;
+      color: #111111;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* ANIMATED DIAGONAL BACKGROUND */
+
+    .bg-motion {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* oversized rotated canvas so the diagonal rows cover every corner */
+    .bg-diagonal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220vmax;
+      height: 220vmax;
+      transform: translate(-50%, -50%) rotate(-24deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(18px, 4vmin, 48px);
+    }
+
+    .bg-track {
+      display: flex;
+      width: max-content;
+      white-space: nowrap;
+      text-transform: uppercase;
+      line-height: 1;
+      will-change: transform;
+    }
+
+    .bg-group {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .bg-group span {
+      display: inline-block;
+      padding-right: 0.7em;
+    }
+
+    /* Row 1 - heavy condensed, solid, soft grey */
+    .bg-track-one {
+      font-family: "Anton", Impact, "Arial Narrow", sans-serif;
+      font-size: clamp(60px, 11vw, 150px);
+      letter-spacing: 6px;
+      color: #111111;
+      opacity: 0.06;
+      animation: moveLeft 60s linear infinite;
+    }
+
+    /* Row 2 - outlined display type */
+    .bg-track-two {
+      font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+      font-size: clamp(44px, 8vw, 110px);
+      letter-spacing: 10px;
+      color: transparent;
+      -webkit-text-stroke: 1.5px #111111;
+      opacity: 0.16;
+      animation: moveRight 75s linear infinite;
+    }
+
+    /* Row 3 - bold italic, speed feel */
+    .bg-track-three {
+      font-family: "Barlow Condensed", "Arial Narrow", sans-serif;
+      font-style: italic;
+      font-weight: 800;
+      font-size: clamp(32px, 5.5vw, 76px);
+      letter-spacing: 4px;
+      color: #444444;
+      opacity: 0.09;
+      animation: moveLeft 55s linear infinite;
+    }
+
+    /* Row 4 - light, wide-spaced, quiet */
+    .bg-track-four {
+      font-family: "Oswald", "Arial Narrow", sans-serif;
+      font-weight: 300;
+      font-size: clamp(20px, 3vw, 40px);
+      letter-spacing: 18px;
+      color: #111111;
+      opacity: 0.22;
+      animation: moveRight 90s linear infinite;
+    }
+
+    /* Row 5 - heavy outline, repeats the hero words */
+    .bg-track-five {
+      font-family: "Anton", Impact, "Arial Narrow", sans-serif;
+      font-size: clamp(48px, 9vw, 120px);
+      letter-spacing: 8px;
+      color: transparent;
+      -webkit-text-stroke: 1px #555555;
+      opacity: 0.14;
+      animation: moveLeft 80s linear infinite;
+    }
+
+    @keyframes moveLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @keyframes moveRight {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg-track {
+        animation: none;
+      }
+    }
+
+    /* MAIN PAGE */
+
+    .page {
+      width: min(1200px, 100%);
+      margin: 0 auto;
+      padding: 30px 24px 50px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* HEADER */
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .collection {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #777777;
+      text-transform: uppercase;
+    }
+
+    /* MAIN TITLE */
+
+    .intro {
+      text-align: center;
+      padding: 45px 0 30px;
+    }
+
+    .intro h1 {
+      font-size: clamp(30px, 5vw, 58px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    /* LOGO */
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 25px;
+    }
+
+    .logo-container img {
+      width: 150px;
+      max-height: 90px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* CAROUSEL */
+
+    .carousel-section {
+      margin-top: 20px;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .image-stage {
+      width: 100%;
+      max-width: 850px;
+      aspect-ratio: 4 / 3;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-btn {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      border: 1px solid #dddddd;
+      border-radius: 50%;
+      background: transparent;
+      color: #111111;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    /* IMAGE CONTROLS */
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      padding: 10px 25px;
+      border: 1px solid #cccccc;
+      background: transparent;
+      color: #111111;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active,
+    .toggle-btn:hover {
+      background: #111111;
+      color: #ffffff;
+      border-color: #111111;
+    }
+
+    .fullscreen-btn {
+      padding: 10px 18px;
+      border: 1px solid #cccccc;
+      background: transparent;
+      color: #111111;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .fullscreen-btn:hover {
+      background: #111111;
+      color: #ffffff;
+    }
+
+    /* DESIGN INFORMATION */
+
+    .design-info {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .design-number {
+      font-size: 10px;
+      color: #888888;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .design-name {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .view-label {
+      font-size: 10px;
+      color: #888888;
+      letter-spacing: 2px;
+      margin-top: 7px;
+      text-transform: uppercase;
+    }
+
+    /* THUMBNAILS */
+
+    .thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 65px;
+      height: 65px;
+      border: 1px solid #dddddd;
+      background: transparent;
+      padding: 4px;
+      cursor: pointer;
+      opacity: 0.55;
+      transition: all 0.2s ease;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .thumbnail.active {
+      opacity: 1;
+      border: 2px solid #111111;
+    }
+
+    .thumbnail:hover {
+      opacity: 1;
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 55px;
+      padding-top: 20px;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      color: #888888;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* FULLSCREEN */
+
+    .image-stage:fullscreen {
+      background: transparent;
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      aspect-ratio: auto;
+    }
+
+    .image-stage:fullscreen .main-image {
+      object-fit: contain;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 20px 14px 35px;
+      }
+
+      header {
+        padding-bottom: 18px;
+      }
+
+      .brand {
+        font-size: 11px;
+        letter-spacing: 2px;
+      }
+
+      .collection {
+        font-size: 9px;
+        letter-spacing: 1px;
+      }
+
+      .intro {
+        padding: 35px 0 20px;
+      }
+
+      .intro h1 {
+        letter-spacing: -1px;
+      }
+
+      .logo-container img {
+        width: 115px;
+        max-height: 70px;
+      }
+
+      .carousel {
+        gap: 7px;
+      }
+
+      .nav-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+      }
+
+      .image-stage {
+        aspect-ratio: 3 / 4;
+      }
+
+      .thumbnail {
+        width: 52px;
+        height: 52px;
+      }
+
+      .bg-diagonal {
+        transform: translate(-50%, -50%) rotate(-30deg);
+      }
+
+      footer {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ANIMATED DIAGONAL BACKGROUND (text only; rows are filled by the script below) -->
+
+  <div class="bg-motion" aria-hidden="true">
+    <div class="bg-diagonal">
+      <div class="bg-track bg-track-one"   data-text="PUSH|PULL|LEGS"></div>
+      <div class="bg-track bg-track-two"   data-text="TRAIN HARD|ONE MORE REP"></div>
+      <div class="bg-track bg-track-three" data-text="PUSH PULL LEGS|NO DAYS OFF"></div>
+      <div class="bg-track bg-track-four"  data-text="PLATES|DUMBBELLS|BARBELLS|STRENGTH"></div>
+      <div class="bg-track bg-track-five"  data-text="LEGS|PULL|PUSH"></div>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <header>
+      <div class="brand">PILOT COLLECTION</div>
+      <div class="collection">GYM WEAR / 2026</div>
+    </header>
+
+    <section class="intro">
+      <h1>LOOKBOOK</h1>
+
+      <div class="logo-container">
+        <img src="images/logo.png" alt="Pilot Collection Logo">
+      </div>
+    </section>
+
+    <section class="carousel-section">
+
+      <div class="carousel">
+
+        <button class="nav-btn" id="prevBtn" aria-label="Previous design">
+          &#8592;
+        </button>
+
+        <div class="image-stage" id="imageStage">
+          <img
+            src="images/design-01-front.png"
+            alt="T-shirt design front"
+            class="main-image"
+            id="mainImage"
+          >
+        </div>
+
+        <button class="nav-btn" id="nextBtn" aria-label="Next design">
+          &#8594;
+        </button>
+
+      </div>
+
+      <div class="controls">
+        <button class="toggle-btn active" id="frontBtn">FRONT</button>
+        <button class="toggle-btn" id="backBtn">BACK</button>
+        <button class="fullscreen-btn" id="fullscreenBtn">FULLSCREEN</button>
+      </div>
+
+      <div class="design-info">
+        <div class="design-number" id="designNumber">DESIGN 01 / 10</div>
+        <div class="design-name" id="designName">DESIGN 01</div>
+        <div class="view-label" id="viewLabel">FRONT VIEW</div>
+      </div>
+
+      <div class="thumbnails" id="thumbnails"></div>
+
+    </section>
+
+    <footer>
+      <span>PILOT COLLECTION</span>
+      <span>PUSH / PULL / LEGS</span>
+    </footer>
+
+  </div>
+
+  <script>
+    /* ---------- DIAGONAL BACKGROUND BUILDER ---------- */
+    /* Fills each row with its words, repeated until one half is wider than the
+       rotated canvas, then duplicates it so the loop (-50%) is seamless. */
+
+    function buildBackground() {
+      const canvas = document.querySelector(".bg-diagonal");
+      const needed = canvas.offsetWidth;
+
+      document.querySelectorAll(".bg-track").forEach((track) => {
+        const words = track.dataset.text.split("|");
+        track.innerHTML = "";
+
+        const group = document.createElement("div");
+        group.className = "bg-group";
+        track.appendChild(group);
+
+        let i = 0;
+        while (group.offsetWidth < needed && i < 400) {
+          const span = document.createElement("span");
+          span.textContent = words[i % words.length];
+          group.appendChild(span);
+          i++;
+        }
+
+        track.appendChild(group.cloneNode(true));
+      });
+    }
+
+    buildBackground();
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildBackground, 250);
+    });
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(buildBackground);
+    }
+
+    /* ---------- LOOKBOOK CAROUSEL ---------- */
+
+    const designs = [
+      { name: "DESIGN 01", front: "images/design-01-front.png", back: "images/design-01-back.png" },
+      { name: "DESIGN 02", front: "images/design-02-front.png", back: "images/design-02-back.png" },
+      { name: "DESIGN 03", front: "images/design-03-front.png", back: "images/design-03-back.png" },
+      { name: "DESIGN 04", front: "images/design-04-front.png", back: "images/design-04-back.png" },
+      { name: "DESIGN 05", front: "images/design-05-front.png", back: "images/design-05-back.png" },
+      { name: "DESIGN 06", front: "images/design-06-front.png", back: "images/design-06-back.png" },
+      { name: "DESIGN 07", front: "images/design-07-front.png", back: "images/design-07-back.png" },
+      { name: "DESIGN 08", front: "images/design-08-front.png", back: "images/design-08-back.png" },
+      { name: "DESIGN 09", front: "images/design-09-front.png", back: "images/design-09-back.png" },
+      { name: "DESIGN 10", front: "images/design-10-front.png", back: "images/design-10-back.png" }
+    ];
+
+    let currentIndex = 0;
+    let currentView = "front";
+
+    const mainImage = document.getElementById("mainImage");
+    const designNumber = document.getElementById("designNumber");
+    const designName = document.getElementById("designName");
+    const viewLabel = document.getElementById("viewLabel");
+
+    const frontBtn = document.getElementById("frontBtn");
+    const backBtn = document.getElementById("backBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+    const thumbnails = document.getElementById("thumbnails");
+    const imageStage = document.getElementById("imageStage");
+
+    function getCurrentImage() {
+      return currentView === "front"
+        ? designs[currentIndex].front
+        : designs[currentIndex].back;
+    }
+
+    function updateDisplay() {
+      const design = designs[currentIndex];
+
+      mainImage.src = getCurrentImage();
+      mainImage.alt = design.name + " " + currentView + " view";
+
+      designNumber.textContent =
+        "DESIGN " +
+        String(currentIndex + 1).padStart(2, "0") +
+        " / " +
+        String(designs.length).padStart(2, "0");
+
+      designName.textContent = design.name;
+
+      viewLabel.textContent =
+        currentView.toUpperCase() + " VIEW";
+
+      frontBtn.classList.toggle("active", currentView === "front");
+      backBtn.classList.toggle("active", currentView === "back");
+
+      document.querySelectorAll(".thumbnail").forEach((thumb, index) => {
+        thumb.classList.toggle("active", index === currentIndex);
+      });
+    }
+
+    function showFront() {
+      currentView = "front";
+      updateDisplay();
+    }
+
+    function showBack() {
+      currentView = "back";
+      updateDisplay();
+    }
+
+    function nextDesign() {
+      currentIndex = (currentIndex + 1) % designs.length;
+      updateDisplay();
+    }
+
+    function previousDesign() {
+      currentIndex =
+        (currentIndex - 1 + designs.length) % designs.length;
+      updateDisplay();
+    }
+
+    function createThumbnails() {
+      thumbnails.innerHTML = "";
+
+      designs.forEach((design, index) => {
+        const button = document.createElement("button");
+        button.className = "thumbnail";
+        button.setAttribute("aria-label", "Show " + design.name);
+
+        const img = document.createElement("img");
+        img.src = design.front;
+        img.alt = design.name;
+
+        button.appendChild(img);
+
+        button.addEventListener("click", () => {
+          currentIndex = index;
+          updateDisplay();
+        });
+
+        thumbnails.appendChild(button);
+      });
+    }
+
+    frontBtn.addEventListener("click", showFront);
+    backBtn.addEventListener("click", showBack);
+    nextBtn.addEventListener("click", nextDesign);
+    prevBtn.addEventListener("click", previousDesign);
+
+    fullscreenBtn.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        imageStage.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        nextDesign();
+      }
+
+      if (event.key === "ArrowLeft") {
+        previousDesign();
+      }
+
+      if (event.key.toLowerCase() === "f") {
+        showFront();
+      }
+
+      if (event.key.toLowerCase() === "b") {
+        showBack();
+      }
+
+      if (event.key === "Escape" && document.fullscreenElement) {
+        document.exitFullscreen?.();
+      }
+    });
+
+    /* TOUCH SWIPE SUPPORT */
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    imageStage.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true });
+
+    imageStage.addEventListener("touchend", (event) => {
+      touchEndX = event.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const difference = touchStartX - touchEndX;
+
+      if (Math.abs(difference) < 50) return;
+
+      if (difference > 0) {
+        nextDesign();
+      } else {
+        previousDesign();
+      }
+    }
+
+    createThumbnails();
+    updateDisplay();
+  </script>
+
+</body>
+</html>
